@@ -10,7 +10,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 class DQN:
-    def __init__(self, Model, minibatch_size=64, replay_memory_size=200000, gamma=0.99, learning_rate=5e-4,
+    def __init__(self, Model, minibatch_size=64, replay_memory_size=1000000, gamma=0.99, learning_rate=5e-4,
                  tau=1e-4, param_noise=0.1, max_distance=0.2, alpha=0.5, beta=0.5):
         self.minibatch_size = minibatch_size
         self.replay_memory_size = replay_memory_size
@@ -39,7 +39,7 @@ class DQN:
 
     def choose_action(self, state):
         self.value.eval()
-        state = torch.tensor(state, dtype=torch.float32).to(device)
+        state = torch.from_numpy(state).to(device, torch.float32)
         action = torch.argmax(self.value(state), dim=1).detach().cpu().numpy()
         self.value.train()
         return action
@@ -57,35 +57,25 @@ class DQN:
 
         n = rewards.shape[1]
 
-        states = torch.tensor(states, device=device, dtype=torch.float32).unsqueeze(1)
-        next_states = torch.tensor(next_states, device=device, dtype=torch.float32).unsqueeze(1)
-        rewards = torch.tensor(rewards, device=device, dtype=torch.float32)
+        states = torch.from_numpy(states).to(device, torch.float32).unsqueeze(1)
+        next_states = torch.from_numpy(next_states).to(device, torch.float32).unsqueeze(1)
+        rewards = torch.from_numpy(rewards).to(device, torch.float32)
         gammas = torch.tensor([self.gamma ** i for i in range(n)], dtype=torch.float32, device=device)
-        dones = torch.tensor(dones, device=device, dtype=torch.float32)
-        actions = torch.tensor(actions, device=device, dtype=torch.long).unsqueeze(1)
+        dones = torch.from_numpy(dones).to(device, torch.float32)
+        actions = torch.from_numpy(actions).to(device, torch.long).unsqueeze(1)
 
         target = torch.sum(rewards * gammas, dim=1) + (self.gamma ** n) * self.target1(next_states).detach().gather(1,
                        torch.argmax(self.value(next_states).detach(), dim=1).unsqueeze(1)).squeeze(1) * (1 - dones)
 
         target = target.unsqueeze(1)
         expected = self.value(states).gather(1, actions)
-        updated_priorities = torch.abs(target - expected).detach().cpu().numpy() + 0.001
-        self.replay.store_priorities(indices, updated_priorities.squeeze(1))
         self.optimizer.zero_grad()
         loss = (weights * ((target - expected) ** 2).squeeze(1)).mean()
-        # loss = F.mse_loss(target, expected)
-        temp = loss.detach().cpu().item()
         loss.backward()
         self.optimizer.step()
+        # loss = F.mse_loss(target, expected)
+        updated_priorities = torch.abs(target - expected).detach().cpu().numpy() + 0.001
+        self.replay.store_priorities(indices, updated_priorities.squeeze(1))
+        temp = loss.detach().cpu().item()
+
         return temp
-
-    def apply_param_noise(self):
-        with torch.no_grad():
-            for param in self.value.parameters():
-                param.add_(torch.randn(param.size()).to(device) * self.param_noise)
-
-    def adapt_noise(self, distance):
-        if distance > self.max_distance:
-            self.param_noise /= 1.01
-        else:
-            self.param_noise *= 1.01

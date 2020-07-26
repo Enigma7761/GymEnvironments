@@ -29,7 +29,7 @@ class ReplayBuffer:
 
 
 class PrioritizedReplayBuffer:
-    def __init__(self, maxlen=1000000, batch_size=64, alpha=0.5):
+    def __init__(self, maxlen=200000, batch_size=64, alpha=0.5):
         self.maxlen = maxlen
         self.buffer = np.empty((maxlen), dtype=object)
         self.batch_size = batch_size
