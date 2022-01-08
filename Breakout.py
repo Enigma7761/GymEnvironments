@@ -4,7 +4,7 @@ from torch import nn
 from torch.nn import functional as F
 import numpy as np
 from DQN import DQN
-from R2D2 import R2D2
+from Rainbow import Rainbow
 import torch
 from collections import deque
 import time
@@ -71,7 +71,7 @@ class Model(nn.Module):
 
 
 epochs = 3500
-agent = R2D2(Model, minibatch_size=batch_size)
+agent = Rainbow(Model, minibatch_size=batch_size)
 
 try:
     agent.value.load_state_dict(torch.load('StateDicts/' + filename + '.pt'))

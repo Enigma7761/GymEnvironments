@@ -57,7 +57,10 @@ class PrioritizedReplayBuffer:
         episodes = np.array(self.buffer)[indices].tolist()
 
         states = np.stack([episode[0] for episode in episodes])
-        actions = np.stack([episode[1] for episode in episodes])
+        try:
+            actions = np.stack([episode[1] for episode in episodes])
+        except ValueError:
+            pass
         rewards = np.stack([episode[2] for episode in episodes])
         next_states = np.stack([episode[3] for episode in episodes])
         dones = np.stack([episode[4] for episode in episodes])
