@@ -10,15 +10,15 @@ as well as a 2048 gym environment I implemented.
 
 ### Finished algorithms
 
-![Bipedal Walker](https://i.imgur.com/z5rBf3H.gifv)\
+![Bipedal Walker](bipedalwalker.gif)\
 Implemented with a DDPG algorithm
 
-![2048](https://i.imgur.com/nCCsMTs.gifv)\
+![2048](2048.gif)\
 Implemented with a DQN algorithm
 
-![Pong](https://i.imgur.com/14XoJh8.gifv)\
+![Pong](pong.gif)\
 Implemented with a DQN algorithm
 
-![Breakout](https://i.imgur.com/isVQabi.gifv)\
+![Breakout](breakout.gif)\
 There are two programs that work for Breakout, one PPO one Rainbow (Rainbow has some
 implementation errors)
