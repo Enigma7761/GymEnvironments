@@ -22,3 +22,18 @@ Implemented with a DQN algorithm
 ![Breakout](breakout.gif)\
 There are two programs that work for Breakout, one PPO one Rainbow (Rainbow has some
 implementation errors)
+
+### Unfinished algorithms
+
+#### DQN + GAN for exploration
+Worked on combining a GAN with a DQN algorithm for exploration
+in the Summer Stem Institute program. Didn't finish because lacked the
+resources to fully evaluate the algorithms performance
+and later realized some of the implementation issues in the algorithm itself. \
+(MontezumaGAN.py, though it is currently set for Breakout)
+(Paper written while in the Summer Stem Institute: https://www.overleaf.com/read/tsxbtnpnjhkf)
+
+#### Overwatch
+Was able to make an HP bar reader and an elimination detector, was 
+planning to use them for rewards for a reinforcement learning
+algorithm but realized the idea was too ambitious for me at the time.
