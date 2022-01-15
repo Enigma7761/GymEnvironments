@@ -3,7 +3,7 @@
 This repository was for testing deep reinforcement learning
 algorithms, especially trying to implement them from their papers. I have since
 abandoned this to make a new repository to better organize and document
-the code. \
+the code. 
 
 Below are some of agents I have properly trained, 
 as well as a 2048 gym environment I implemented.
