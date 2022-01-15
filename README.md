@@ -1,4 +1,4 @@
-#About
+# About
 
 This repository was for me messing around with deep reinforcement learning
 algorithms, especially trying to implement them from their papers. I have since
