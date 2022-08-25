@@ -20,12 +20,10 @@ Implemented with a DQN algorithm
 Implemented with a DQN algorithm
 
 ![Breakout](breakout.gif)\
-There are two programs that work for Breakout, one PPO one Rainbow (Rainbow has some
-implementation errors)
+There are two programs that work for Breakout, one PPO one Rainbow
 
 ### DQN + GAN for exploration
 Worked on combining a GAN with a DQN algorithm for exploration
-in the Summer Stem Institute program. Didn't finish because lacked the
-resources to fully evaluate the algorithms performance \
+in the Summer Stem Institute program.
 (MontezumaGAN.py, though it is currently set to Breakout) \
 (Paper written while in the Summer Stem Institute: https://www.overleaf.com/read/tsxbtnpnjhkf)
